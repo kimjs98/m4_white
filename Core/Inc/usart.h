@@ -44,6 +44,7 @@ void MX_UART4_Init(void);
 void MX_USART1_UART_Init(void);
 
 /* USER CODE BEGIN Prototypes */
+extern void TxPrintf(const char *Form, ... );
 
 /* USER CODE END Prototypes */
 

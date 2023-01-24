@@ -25,7 +25,10 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#define _MAIN_
+#define __STRUCT__
 
+#include "device.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -98,6 +101,7 @@ int main(void)
   MX_TIM9_Init();
   /* USER CODE BEGIN 2 */
 
+  PrintMenu();
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -105,7 +109,7 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-
+	
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
