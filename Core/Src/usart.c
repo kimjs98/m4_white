@@ -21,6 +21,11 @@
 #include "usart.h"
 
 /* USER CODE BEGIN 0 */
+#include "device.h"
+#include "usart.h"
+
+static void UART4_SendData(const char data);
+static void UART4_SendString(char *str);
 
 /* USER CODE END 0 */
 
@@ -181,5 +186,57 @@ void HAL_UART_MspDeInit(UART_HandleTypeDef* uartHandle)
 }
 
 /* USER CODE BEGIN 1 */
+void USART1_SendData(const char data)
+{
+  /* Transmit Data */
+  	//UART_HandleTypeDef tuart1  
+	while(!(USART1->SR & UART_FLAG_TC) );
+	USART1->DR = (data & (uint16_t)0x01FF);
+}
+
+void USART1_SendString(char *str)
+{
+	while(*str)
+	{
+		if(*str=='\n')
+		{
+			USART1_SendData('\r');
+		}
+		
+		USART1_SendData(*str++);
+	}
+}
+
+
+void TxPrintf(const char *Form, ... )
+{
+    static char Buff[128];
+    va_list ArgPtr;
+    va_start(ArgPtr,Form);	 
+    vsprintf(Buff, Form, ArgPtr);
+    va_end(ArgPtr);
+    USART1_SendString(Buff);
+}
+
+static void UART4_SendData(const char data)
+{
+  /* Transmit Data */ 
+	while(!(UART4->SR & UART_FLAG_TC) );
+	UART4->DR = (data & (uint16_t)0x01FF);	
+}
+
+static void UART4_SendString(char *str) // ???? ???? ??
+{
+    while(*str)
+		{
+			if(*str=='\n')
+			{
+				UART4_SendData('\r');
+			}
+		
+			UART4_SendData(*str++);
+		}
+}
+
 
 /* USER CODE END 1 */
