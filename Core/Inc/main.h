@@ -59,6 +59,8 @@ void Error_Handler(void);
 /* Private defines -----------------------------------------------------------*/
 #define Sensor_Timer_A_Pin GPIO_PIN_5
 #define Sensor_Timer_A_GPIO_Port GPIOE
+#define Sensor_Timer_B_Pin GPIO_PIN_6
+#define Sensor_Timer_B_GPIO_Port GPIOE
 #define Left_Encoder_A_Pin GPIO_PIN_9
 #define Left_Encoder_A_GPIO_Port GPIOE
 #define Left_Encoder_B_Pin GPIO_PIN_11
@@ -99,8 +101,18 @@ void Error_Handler(void);
 #define VFD_CE_GPIO_Port GPIOD
 #define VFD_CLK_Pin GPIO_PIN_3
 #define VFD_CLK_GPIO_Port GPIOD
-#define Moter_Timer_A_Pin GPIO_PIN_6
-#define Moter_Timer_A_GPIO_Port GPIOB
+#define right_motor_dir_Pin GPIO_PIN_4
+#define right_motor_dir_GPIO_Port GPIOD
+#define left_motor_dir_Pin GPIO_PIN_5
+#define left_motor_dir_GPIO_Port GPIOD
+#define left_motor_pwm_Pin GPIO_PIN_4
+#define left_motor_pwm_GPIO_Port GPIOB
+#define right_motor_pwm_Pin GPIO_PIN_5
+#define right_motor_pwm_GPIO_Port GPIOB
+#define Motor_Timer_A_Pin GPIO_PIN_6
+#define Motor_Timer_A_GPIO_Port GPIOB
+#define Motor_Timer_B_Pin GPIO_PIN_7
+#define Motor_Timer_B_GPIO_Port GPIOB
 
 /* USER CODE BEGIN Private defines */
 

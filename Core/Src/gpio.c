@@ -65,7 +65,8 @@ void MX_GPIO_Init(void)
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOD, SEN_0_8_Pin|SEN_1_9_Pin|SEN_2_10_Pin|SEN_3_11_Pin
                           |SEN_4_12_Pin|SEN_5_13_Pin|SEN_6_14_Pin|SEN_7_15_Pin
-                          |VFD_DATA_Pin|VFD_RS_Pin|VFD_CE_Pin|VFD_CLK_Pin, GPIO_PIN_RESET);
+                          |VFD_DATA_Pin|VFD_RS_Pin|VFD_CE_Pin|VFD_CLK_Pin
+                          |right_motor_dir_Pin|left_motor_dir_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pins : PEPin PEPin PEPin PEPin */
   GPIO_InitStruct.Pin = SW_U_Pin|SW_D_Pin|SW_L_Pin|SW_R_Pin;
@@ -115,6 +116,13 @@ void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   GPIO_InitStruct.Alternate = GPIO_AF0_MCO;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : PDPin PDPin */
+  GPIO_InitStruct.Pin = right_motor_dir_Pin|left_motor_dir_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_PULLDOWN;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+  HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
 
   /*Configure GPIO pins : PB8 PB9 */
   GPIO_InitStruct.Pin = GPIO_PIN_8|GPIO_PIN_9;

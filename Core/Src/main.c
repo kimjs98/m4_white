@@ -99,7 +99,21 @@ int main(void)
   MX_TIM8_Init();
   MX_USART1_UART_Init();
   MX_TIM9_Init();
+  MX_TIM3_Init();
   /* USER CODE BEGIN 2 */
+
+  HAL_TIM_Base_Start_IT(&htim4);					// motor interrupt
+  HAL_TIM_Base_Start_IT(&htim9);					// sensor interrupt
+
+  HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_1);			// left motor pwm
+  HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_2);			// right motor pwm
+  
+  HAL_TIM_Encoder_Start(&htim1, TIM_CHANNEL_ALL);	//	left motor encorer
+  HAL_TIM_Encoder_Start(&htim8, TIM_CHANNEL_ALL);	//	right motor encoder
+  
+  init_motor_variable(&r_motor);
+  init_motor_variable(&l_motor);
+
 
   PrintMenu();
   /* USER CODE END 2 */
@@ -109,7 +123,7 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-	
+
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
