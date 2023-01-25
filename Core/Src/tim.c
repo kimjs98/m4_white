@@ -82,7 +82,7 @@ void MX_TIM3_Init(void)
 {
 
   /* USER CODE BEGIN TIM3_Init 0 */
-
+  // pwm period -> 50khz(20us) = 84mhz / (2 * 840)
   /* USER CODE END TIM3_Init 0 */
 
   TIM_MasterConfigTypeDef sMasterConfig = {0};
@@ -92,9 +92,9 @@ void MX_TIM3_Init(void)
 
   /* USER CODE END TIM3_Init 1 */
   htim3.Instance = TIM3;
-  htim3.Init.Prescaler = 2 - 1;
+  htim3.Init.Prescaler = 1 - 1;
   htim3.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim3.Init.Period = 840 - 1;
+  htim3.Init.Period = 1680 - 1;
   htim3.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim3.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
   if (HAL_TIM_PWM_Init(&htim3) != HAL_OK)

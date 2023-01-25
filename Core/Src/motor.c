@@ -217,12 +217,6 @@ void timer4_motor_ISR()
 	l_motor.fp32differential_val = l_motor.fp32kd * ( ( l_motor.fp32err_vel[ 0 ] - l_motor.fp32err_vel[ 3 ] ) + ( ( float32 )3.0 * ( l_motor.fp32err_vel[ 1 ] - l_motor.fp32err_vel[ 2 ] ) ) );
 	l_motor.fp32PID_output += l_motor.fp32proportion_val + l_motor.fp32integral_val + l_motor.fp32differential_val;
 
-
-	//pPwmRegs->TBPRD = 3000;// 1/(6.67ns*3000) = 50Khz(1  20us )//
-
-	//PA12_MOTOR_DIR_GPIO_Port->BSRR = PA12_MOTOR_DIR_Pin;  // gpio set
-	//PA12_MOTOR_DIR_GPIO_Port->BSRR = (uint32_t)PA12_MOTOR_DIR_Pin << 16U; 	// gpio reset
-
 	if( g_flag.start_flag ) 
 	{
 		/* PID -> PWM */
@@ -234,7 +228,6 @@ void timer4_motor_ISR()
 			right_motor_dir_GPIO_Port->BSRR = right_motor_pwm_Pin;  // gpio set;
 			TIM3->CCR2 = ( UINT32 )( r_motor.fp32PID_output * PWM_CONVERT );
 
-
 		}
 		else
 		{
@@ -243,7 +236,6 @@ void timer4_motor_ISR()
 
 			right_motor_dir_GPIO_Port->BSRR = (UINT32)right_motor_pwm_Pin << 16U; 	// gpio reset
 			TIM3->CCR2 = ( UINT32 )( r_motor.fp32PID_output * PWM_CONVERT * (-1) );
-
 		}
 
 		if( l_motor.fp32PID_output > 0.0 )
@@ -266,8 +258,6 @@ void timer4_motor_ISR()
 	}
 	else 
 	{
-		//HAL_GPIO_WritePin(PB7_MOTOR_DIR_GPIO_Port, PB7_MOTOR_DIR_Pin, GPIO_PIN_RESET);
-
 		right_motor_dir_GPIO_Port->BSRR = (UINT32)right_motor_pwm_Pin << 16U;	// gpio reset
 		left_motor_dir_GPIO_Port->BSRR = (UINT32)left_motor_pwm_Pin << 16U; 	// gpio reset
 

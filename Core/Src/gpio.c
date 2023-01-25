@@ -121,7 +121,7 @@ void MX_GPIO_Init(void)
   GPIO_InitStruct.Pin = right_motor_dir_Pin|left_motor_dir_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_PULLDOWN;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
   HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
 
   /*Configure GPIO pins : PB8 PB9 */
