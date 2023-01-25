@@ -32,6 +32,7 @@ typedef long double     float64;
 #include <stdlib.h>
 #include <stdarg.h>
 #include <string.h>
+#include <math.h>
 
 // hal header
 #include "main.h"
@@ -46,5 +47,6 @@ typedef long double     float64;
 #include "menu.h"
 #include "vfd.h"
 #include "struct.h"
+#include "motor.h"
 
 #endif
