@@ -101,10 +101,6 @@ void Error_Handler(void);
 #define VFD_CE_GPIO_Port GPIOD
 #define VFD_CLK_Pin GPIO_PIN_3
 #define VFD_CLK_GPIO_Port GPIOD
-#define right_motor_dir_Pin GPIO_PIN_4
-#define right_motor_dir_GPIO_Port GPIOD
-#define left_motor_dir_Pin GPIO_PIN_5
-#define left_motor_dir_GPIO_Port GPIOD
 #define left_motor_pwm_Pin GPIO_PIN_4
 #define left_motor_pwm_GPIO_Port GPIOB
 #define right_motor_pwm_Pin GPIO_PIN_5
