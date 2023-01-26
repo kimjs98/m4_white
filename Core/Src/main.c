@@ -102,11 +102,8 @@ int main(void)
   MX_TIM3_Init();
   /* USER CODE BEGIN 2 */
 
-  HAL_TIM_Base_Start_IT(&htim4);					// motor interrupt
-  HAL_TIM_Base_Start_IT(&htim9);					// sensor interrupt
-
-  HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_1);			// left motor pwm
-  HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_2);			// right motor pwm
+  HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_1);			// 	left motor pwm
+  HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_2);			// 	right motor pwm
   
   HAL_TIM_Encoder_Start(&htim1, TIM_CHANNEL_ALL);	//	left motor encorer
   HAL_TIM_Encoder_Start(&htim8, TIM_CHANNEL_ALL);	//	right motor encoder
@@ -114,6 +111,8 @@ int main(void)
   init_motor_variable(&r_motor);
   init_motor_variable(&l_motor);
 
+  HAL_TIM_Base_Start_IT(&htim4);					// 	start motor interrupt
+  g_int32_sen_cnt = 0;
 
   PrintMenu();
   /* USER CODE END 2 */
