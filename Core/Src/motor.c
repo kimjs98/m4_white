@@ -1,9 +1,16 @@
-/*
- * motor.c
- *
- *  Created on: 2022. 3. 10.
- *      Author: kimjs
- */
+//###########################################################################
+//
+// FILE		: motor.c
+//
+// TITLE		: m4_while motor source file.
+//
+// Author	: Kim Jinseong
+//
+// Company	: Maze
+//
+//###########################################################################
+// $Release Date: 2023.01.26 $
+//###########################################################################
 
 #define	_MOTOR_
 
@@ -47,13 +54,8 @@
 #define DOWN_KD				( float32 )( 0.005 )	//3.4
 //#define DOWN_KD				( float32 )( 0.01 )		//2.4
 
-float32	am_g_motor_step = 0.0;
-
-//float32	am_Rmotor_step = 0.0;
-//float32	am_Lmotor_step = 0.0;
 
 /* motor variable struct initialize func */
-
 void init_motor_variable( motor_vari *pm )
 {
 	memset( ( void * )pm , 0x00 , sizeof( motor_vari ) );
@@ -64,7 +66,6 @@ void init_motor_variable( motor_vari *pm )
 	pm->int32accel = 5;
 
 	/* test */
-	pm->fp32user_vel = 0;
 	g_flag.start_flag = 1;
 }
 
@@ -73,21 +74,18 @@ void timer4_motor_ISR()
 	// htim->Instance->ARR 		// counter period(auto-reload register) set
 	// htim->Instance->psc 		// prescaler set
 
-	//cnt = TIM8->CNT;			// encoder count input
-	//TIM8->CNT = 0;			// encoder count clear
-
 #if 1 // motor interrupt
 
 	/* qep value sampling */
 	r_motor.u32qep_sample = TIM8->CNT;		// encoder cnt
 	l_motor.u32qep_sample = TIM1->CNT;		// encoder cnt
 
-	/* qep reset */
-	TIM8->CNT = 0;							// encoder count clear
-	TIM1->CNT = 0;							// encoder count clear
+	/* qep count clear */
+	TIM8->CNT = 0;
+	TIM1->CNT = 0;
 
-	r_motor.int32qep_value = r_motor.u32qep_sample > 1024 ? (int32)( r_motor.u32qep_sample ) - 2049 : (int32)r_motor.u32qep_sample;
-	l_motor.int32qep_value = l_motor.u32qep_sample > 1024 ? (int32)( l_motor.u32qep_sample ) - 2049 : (int32)l_motor.u32qep_sample;
+	r_motor.int32qep_value = r_motor.u32qep_sample > 1024 ? -((int32)( r_motor.u32qep_sample ) - 2049) : -(int32)r_motor.u32qep_sample;
+	l_motor.int32qep_value = l_motor.u32qep_sample > 1024 ? (int32)( l_motor.u32qep_sample ) - 2049 : -(int32)l_motor.u32qep_sample;
 	
 	/* distance compute */
 	r_motor.fp32tick_distance = ( float32 )r_motor.int32qep_value * ( float32 )PULSE_TO_D;
@@ -225,7 +223,7 @@ void timer4_motor_ISR()
 			if( r_motor.fp32PID_output > MAX_PID_OUT )
 				r_motor.fp32PID_output = MAX_PID_OUT;
 
-			right_motor_dir_GPIO_Port->BSRR = right_motor_pwm_Pin;  // gpio set;
+			GPIOD->BSRR = GPIO_PIN_6;  			// gpio set;
 			TIM3->CCR2 = ( UINT32 )( r_motor.fp32PID_output * PWM_CONVERT );
 
 		}
@@ -234,7 +232,7 @@ void timer4_motor_ISR()
 			if( r_motor.fp32PID_output < MIN_PID_OUT )
 				r_motor.fp32PID_output = MIN_PID_OUT;
 
-			right_motor_dir_GPIO_Port->BSRR = (UINT32)right_motor_pwm_Pin << 16U; 	// gpio reset
+			GPIOD->BSRR = GPIO_PIN_6 << 16U; 	// gpio reset
 			TIM3->CCR2 = ( UINT32 )( r_motor.fp32PID_output * PWM_CONVERT * (-1) );
 		}
 
@@ -243,26 +241,23 @@ void timer4_motor_ISR()
 			if( l_motor.fp32PID_output > MAX_PID_OUT )
 				l_motor.fp32PID_output = MAX_PID_OUT;
 			
-			left_motor_dir_GPIO_Port->BSRR = (UINT32)left_motor_pwm_Pin << 16U; 	// gpio reset
-			TIM3->CCR1 = ( UINT32 )( l_motor.fp32PID_output * PWM_CONVERT * (-1) );
+			GPIOD->BSRR = GPIO_PIN_7;  // gpio set;
+			TIM3->CCR1 = ( UINT32 )( l_motor.fp32PID_output * PWM_CONVERT );
 		}
 		else
 		{
 			if( l_motor.fp32PID_output < MIN_PID_OUT )
 				l_motor.fp32PID_output = MIN_PID_OUT;
 
-			left_motor_dir_GPIO_Port->BSRR = left_motor_pwm_Pin;  // gpio set;
-			TIM3->CCR1 = ( UINT32 )( l_motor.fp32PID_output * PWM_CONVERT );
+			GPIOD->BSRR = GPIO_PIN_7 << 16U; 	// gpio reset
+			TIM3->CCR1 = ( UINT32 )( l_motor.fp32PID_output * PWM_CONVERT * (-1) );
 		}
 
 	}
 	else 
 	{
-		right_motor_dir_GPIO_Port->BSRR = (UINT32)right_motor_pwm_Pin << 16U;	// gpio reset
-		left_motor_dir_GPIO_Port->BSRR = (UINT32)left_motor_pwm_Pin << 16U; 	// gpio reset
-
-		//GpioDataRegs.GPBSET.bit.GPIO48 = 1; // left
-		//GpioDataRegs.GPBCLEAR.bit.GPIO49 = 1; // right
+		GPIOD->BSRR = GPIO_PIN_6;  // gpio set;
+		GPIOD->BSRR = GPIO_PIN_7;  // gpio set;
 
 		/* motor stop */
 		TIM3->CCR1 = 0;
