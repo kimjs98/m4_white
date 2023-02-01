@@ -44,9 +44,10 @@ typedef long double     float64;
 
 // own header
 #include "variable.h"
+#include "struct.h"
 #include "menu.h"
 #include "vfd.h"
-#include "struct.h"
 #include "motor.h"
+#include "sensor.h"
 
 #endif

@@ -2,17 +2,16 @@
 //
 // FILE		: motor.c
 //
-// TITLE		: m4_while motor source file.
+// TITLE		: m4_white motor source file.
 //
 // Author	: Kim Jinseong
 //
-// Company	: Maze
+// Company	: Maze & Hz
 //
 //###########################################################################
 // $Release Date: 2023.01.26 $
 //###########################################################################
-
-#define	_MOTOR_
+#define _MOTOR_
 
 #include "device.h"
 #include "motor.h"
@@ -71,10 +70,9 @@ void init_motor_variable( motor_vari *pm )
 
 void timer4_motor_ISR()
 {
+	HAL_GPIO_TogglePin(GPIOE, GPIO_PIN_7);	// DEBUG
 	// htim->Instance->ARR 		// counter period(auto-reload register) set
 	// htim->Instance->psc 		// prescaler set
-
-#if 1 // motor interrupt
 
 	/* qep value sampling */
 	r_motor.u32qep_sample = TIM8->CNT;		// encoder cnt
@@ -263,6 +261,6 @@ void timer4_motor_ISR()
 		TIM3->CCR1 = 0;
 		TIM3->CCR2 = 0;
 	}
-#endif
 
+	HAL_TIM_Base_Start_IT(&htim9);					// sensor interrupt start
 }

@@ -527,11 +527,15 @@ void HAL_TIM_Base_MspDeInit(TIM_HandleTypeDef* tim_baseHandle)
 
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
-	if(htim->Instance == TIM9)
+	if(htim->Instance == TIM4)
 	{
 		timer4_motor_ISR();
 	}
+	else if(htim->Instance == TIM9)
+	{
+		timer9_sensor_ISR();
+	}
+	else;
 }
-
 
 /* USER CODE END 1 */
