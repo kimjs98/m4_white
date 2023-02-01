@@ -70,6 +70,7 @@ void init_motor_variable( motor_vari *pm )
 
 void timer4_motor_ISR()
 {
+	HAL_GPIO_TogglePin(GPIOE, GPIO_PIN_7);	// DEBUG
 	// htim->Instance->ARR 		// counter period(auto-reload register) set
 	// htim->Instance->psc 		// prescaler set
 
