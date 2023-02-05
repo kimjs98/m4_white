@@ -54,6 +54,7 @@
 //#define DOWN_KD				( float32 )( 0.01 )		//2.4
 
 
+
 /* motor variable struct initialize func */
 void init_motor_variable( motor_vari *pm )
 {
@@ -70,7 +71,7 @@ void init_motor_variable( motor_vari *pm )
 
 void timer4_motor_ISR()
 {
-	HAL_GPIO_TogglePin(GPIOE, GPIO_PIN_7);	// DEBUG
+	HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_15);	// DEBUG
 	// htim->Instance->ARR 		// counter period(auto-reload register) set
 	// htim->Instance->psc 		// prescaler set
 
@@ -263,4 +264,8 @@ void timer4_motor_ISR()
 	}
 
 	HAL_TIM_Base_Start_IT(&htim9);					// sensor interrupt start
+
+	//HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_15);
+
+	
 }

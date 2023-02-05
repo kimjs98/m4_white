@@ -34,5 +34,5 @@
 __VARIABLE_EXT__ int32	flag;
 __VARIABLE_EXT__ int32	g_int32_sen_cnt;
 
-__VARIABLE_EXT__ Uint32 g_sen[16];
+__VARIABLE_EXT__ uint32 g_sen[16];
 

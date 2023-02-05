@@ -102,7 +102,7 @@ int main(void)
   MX_TIM3_Init();
   /* USER CODE BEGIN 2 */
 
-  HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_1);			// 	left motor pwm
+  //HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_1);			// 	left motor pwm
   HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_2);			// 	right motor pwm
   
   HAL_TIM_Encoder_Start(&htim1, TIM_CHANNEL_ALL);	//	left motor encorer
@@ -113,7 +113,7 @@ int main(void)
 
   HAL_TIM_Base_Start_IT(&htim4);					// 	start motor interrupt
   g_int32_sen_cnt = 0;
-
+  memset((void *)g_sen, 0x00u, sizeof(g_sen));
   PrintMenu();
   /* USER CODE END 2 */
 
@@ -124,6 +124,14 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+
+	TxPrintf("sen : [%d] ", g_int32_sen_cnt);
+    for(int i = 0; i < 16; i++)
+	{
+		//if(g_int32_sen_cnt == 
+		TxPrintf("[%lu] ", g_sen[i]);
+	}
+	TxPrintf("\n");
   }
   /* USER CODE END 3 */
 }
@@ -192,6 +200,7 @@ void Error_Handler(void)
   __disable_irq();
   while (1)
   {
+  	TxPrintf("Error\n");
   }
   /* USER CODE END Error_Handler_Debug */
 }
