@@ -15,7 +15,8 @@
 #include "device.h"
 #include "sensor.h"
 
-#define ADC_SET_SQR1(_ADCNB_) 					(ADC_SQR1_RK(_ADCNB_, 16)|\
+#define ADC_SET_SQR1(_ADCNB_) 					( ADC_SQR1(16) | \
+												ADC_SQR1_RK(_ADCNB_, 16)|\
 												ADC_SQR1_RK(_ADCNB_, 15) |\
 												ADC_SQR1_RK(_ADCNB_, 14) |\
 												ADC_SQR1_RK(_ADCNB_, 13) )
@@ -92,12 +93,54 @@ volatile uint32 sen_adc_seq[ ADC_NUM ] =
 
 void timer9_sensor_ISR() 
 {
-	HAL_GPIO_TogglePin(GPIOE, GPIO_PIN_8);	// DEBUG
 	
-	g_int32_sen_cnt++;
-	if(g_int32_sen_cnt >= SEN_END)
-	{		
-		g_int32_sen_cnt = 0;
-		HAL_TIM_Base_Stop_IT(&htim9);	// sensor interrupt stop 
+	HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_15);
+
+	GPIOD->BSRR = ( SEN_ON << sen_shoot_arr[ g_int32_sen_cnt ] );
+	//OFF_L = 0x10000
+	// ADC Channel 의 Rank 설정 . 
+	// 이렇게 설정하면 현재 g_int32_sen_cnt가 증가하면서 
+	// 0000 0000 8888 8888
+	// 1111 1111 9999 9999
+	//...
+	// 트레이서랑 동일한데 4번 4번 4번 4번이 아니라 8번 8번 한다고 보면 된다.
+	// 순서 이상 왜PA0을 불러恙都쨉� 
+	ADC1->SQR1 = ADC_SET_SQR1(sen_adc_seq[g_int32_sen_cnt + SEN_END]); // 16 , 15, 14, 13
+	//TxPrintf("%#x\n", ADC_SET_SQR1(sen_adc_seq[g_int32_sen_cnt + SEN_END]));
+	
+	ADC1->SQR2 = ADC_SET_SQR2(sen_adc_seq[g_int32_sen_cnt + SEN_END], sen_adc_seq[g_int32_sen_cnt]); // 12, 11, 10, 9, 8, 7
+	//TxPrintf("%#x\n", ADC_SET_SQR2(sen_adc_seq[g_int32_sen_cnt + SEN_END], sen_adc_seq[g_int32_sen_cnt]));
+	
+	ADC1->SQR3 = ADC_SET_SQR3(sen_adc_seq[g_int32_sen_cnt]);								 // 6, 5, 4, 3, 2, 1
+	//TxPrintf("%#x\n", ADC_SET_SQR3(sen_adc_seq[g_int32_sen_cnt]));
+	
+	// 변환 시작
+	HAL_ADC_Start_DMA(&hadc1, g_sen, 16);
+	
+}
+
+void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc)
+{
+	if(hadc->Instance == ADC1)
+	{
+		//HAL_ADC_Stop_DMA(&hadc1);
+		// Check 1. 이 함수가 250us 마다 호출되는지 확인해봐야 함
+		TxPrintf("%u\n",HAL_ADC_Stop_DMA(&hadc1));
+		GPIOD->BSRR = ( SEN_OFF << sen_shoot_arr[ g_int32_sen_cnt ] );
+		//HAL_ADC_Stop_DMA(&hadc1);
+		// value 값 후처리
+		// max_min value 
+		
+		g_int32_sen_cnt++;
+		
+		if(g_int32_sen_cnt >= SEN_END) 
+		{
+			//TxPrintf("SEQ_CPLT\n");
+			HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_4);	
+			g_int32_sen_cnt = 0;
+		}
+
+		
 	}
 }
+
