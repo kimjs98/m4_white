@@ -123,23 +123,23 @@ void timer9_sensor_ISR()
 	//...
 	// 트레이서랑 동일한데 4번 4번 4번 4번이 아니라 8번 8번 한다고 보면 된다.
 	// 순서 이상 왜PA0을 불러恙都쨉� 
-	ADC1->SQR1 = ADC_SET_SQR1(ADC_CHANNEL_17_NUMBER); // 16 , 15, 14, 13
+	//ADC1->SQR1 = ADC_SET_SQR1(ADC_CHANNEL_17_NUMBER); // 16 , 15, 14, 13
 	//TxPrintf("%d SQR 1 : %#x\n",g_int32_sen_cnt, ADC_SET_SQR1(sen_adc_seq[g_int32_sen_cnt + SEN_END]));
 	
-	ADC1->SQR2 = ADC_SET_SQR2(ADC_CHANNEL_17_NUMBER, ADC_CHANNEL_17_NUMBER); // 12, 11, 10, 9, 8, 7
+	//ADC1->SQR2 = ADC_SET_SQR2(ADC_CHANNEL_17_NUMBER, ADC_CHANNEL_17_NUMBER); // 12, 11, 10, 9, 8, 7
 	//TxPrintf("%d SQR 2 : %#x\n",g_int32_sen_cnt, ADC_SET_SQR2(sen_adc_seq[g_int32_sen_cnt + SEN_END], sen_adc_seq[g_int32_sen_cnt]));
 	
-	ADC1->SQR3 = ADC_SET_SQR3(ADC_CHANNEL_17_NUMBER);								 // 6, 5, 4, 3, 2, 1
+	//ADC1->SQR3 = ADC_SET_SQR3(ADC_CHANNEL_17_NUMBER);								 // 6, 5, 4, 3, 2, 1
 	//TxPrintf("%d SQR 3 : %#x\n",g_int32_sen_cnt, ADC_SET_SQR3(sen_adc_seq[g_int32_sen_cnt]));
-	#if 0
+	#if 1
 	ADC1->SQR1 = ADC_SET_SQR1(sen_adc_seq[g_int32_sen_cnt + SEN_END]); // 16 , 15, 14, 13
-	TxPrintf("%d SQR 1 : %#x\n",g_int32_sen_cnt, ADC_SET_SQR1(sen_adc_seq[g_int32_sen_cnt + SEN_END]));
+	//	TxPrintf("%d SQR 1 : %#x\n",g_int32_sen_cnt, ADC_SET_SQR1(sen_adc_seq[g_int32_sen_cnt + SEN_END]));
 	
 	ADC1->SQR2 = ADC_SET_SQR2(sen_adc_seq[g_int32_sen_cnt + SEN_END], sen_adc_seq[g_int32_sen_cnt]); // 12, 11, 10, 9, 8, 7
-	TxPrintf("%d SQR 2 : %#x\n",g_int32_sen_cnt, ADC_SET_SQR2(sen_adc_seq[g_int32_sen_cnt + SEN_END], sen_adc_seq[g_int32_sen_cnt]));
+	//TxPrintf("%d SQR 2 : %#x\n",g_int32_sen_cnt, ADC_SET_SQR2(sen_adc_seq[g_int32_sen_cnt + SEN_END], sen_adc_seq[g_int32_sen_cnt]));
 	
-	ADC1->SQR3 = ADC_SET_SQR3(sen_adc_seq[g_int32_sen_cnt]);								 // 6, 5, 4, 3, 2, 1
-	TxPrintf("%d SQR 3 : %#x\n",g_int32_sen_cnt, ADC_SET_SQR3(sen_adc_seq[g_int32_sen_cnt]));
+	ADC1->SQR3 = ADC_SET_SQR3(sen_adc_seq[g_int32_sen_cnt]); // 6, 5, 4, 3, 2, 1
+	//TxPrintf("%d SQR 3 : %#x\n",g_int32_sen_cnt, ADC_SET_SQR3(sen_adc_seq[g_int32_sen_cnt]));
 	#endif
 	
 	// 변환 시작
