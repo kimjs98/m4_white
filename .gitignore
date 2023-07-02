@@ -1,6 +1,8 @@
 build/
 .vscode/
 
+
+*.bat
 *.IAB
 *.IAD
 *.IMB
